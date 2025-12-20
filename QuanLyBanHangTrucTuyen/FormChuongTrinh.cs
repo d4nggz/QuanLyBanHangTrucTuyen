@@ -47,23 +47,17 @@ namespace QuanLyBanHangTrucTuyen
 
         private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormQuanLySanPham form = new FormQuanLySanPham();
-            form.MdiParent = this;
-            form.Show();
+           
         }
 
         private void quảnLýĐơnHàngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormQuanLyDonHang form = new FormQuanLyDonHang();
-            form.MdiParent = this;
-            form.Show();
+ 
         }
 
         private void quảnLýNgườiDùngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormQuanLyNguoiDung form = new FormQuanLyNguoiDung();
-            form.MdiParent = this;
-            form.Show();
+            
         }
 
         private void báoCáoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,9 +67,67 @@ namespace QuanLyBanHangTrucTuyen
 
         private void báoCáoDoanhThuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormBaoCaoDoanhThu form = new FormBaoCaoDoanhThu();
-            form.MdiParent = this;
-            form.Show();
+           
+        }
+
+        private void FormChuongTrinh_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            Form frm = new Form();
+            switch (e.ClickedItem.Name)
+            {
+                case "quảnLýSảnPhẩmToolStripMenuItem1":
+                    FormQuanLySanPham formQuanLySanPham = new FormQuanLySanPham();
+                    frm = formQuanLySanPham;
+                    break;
+                case "quảnLýHóaĐơnToolStripMenuItem":
+                    FormQuanLyDonHang formQuanLyDonHang = new FormQuanLyDonHang();
+                    frm = formQuanLyDonHang;
+                    break;
+                case "quảnLýNgườiDùngToolStripMenuItem1":
+                    FormQuanLyNguoiDung formQuanLyNguoiDung = new FormQuanLyNguoiDung();
+                    frm = formQuanLyNguoiDung;
+                    break;
+                case "quảnLýDanhMụcToolStripMenuItem":
+                    FormQuanLyDanhMuc formQuanLyDanhMuc = new FormQuanLyDanhMuc();
+                    frm = formQuanLyDanhMuc;
+                    break;
+                case "quảnLýPhươngThứcThanhToánToolStripMenuItem":
+                    FormQuanLyPhuongThucThanhToan formQuanLyPhuongThucThanhToan = new FormQuanLyPhuongThucThanhToan();
+                    frm = formQuanLyPhuongThucThanhToan;
+                    break;
+
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+            frm.BringToFront();
+        }
+
+        private void quảnLýĐơnHàngToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            Form frm = new Form();
+            switch (e.ClickedItem.Name)
+            {
+                case "thốngKêDoanhThuToolStripMenuItem":
+                    FormThongKeDoanhThu formThongKeDoanhThu = new FormThongKeDoanhThu();
+                    frm = formThongKeDoanhThu;
+                    break;
+                case "thốngKêSảnPhẩmToolStripMenuItem":
+                    FormThongKeSanPham formThongKeSanPham = new FormThongKeSanPham();
+                    frm = formThongKeSanPham;
+                    break;
+              
+
+            }
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+            frm.BringToFront();
         }
     }
 }

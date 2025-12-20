@@ -33,5 +33,10 @@ namespace QuanLyBanHangTrucTuyen
             frm.Show();
             this.Hide();
         }
+
+        private void FormDangNhap_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
