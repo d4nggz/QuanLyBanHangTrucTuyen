@@ -53,7 +53,7 @@ namespace DAL
                 LEFT JOIN Roles_N01 r ON u.RoleID_N01 = r.RoleID_N01
                 WHERE u.Username_N01 LIKE N'%{keyword}%'";
 
-            if (roleId != -1) // Nếu có chọn vai trò cụ thể
+            if (roleId != -1)
                 sql += $" AND u.RoleID_N01 = {roleId}";
 
             return db.LoadData(sql);

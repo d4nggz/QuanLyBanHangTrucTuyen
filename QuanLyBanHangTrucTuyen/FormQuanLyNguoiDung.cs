@@ -39,18 +39,24 @@ namespace QuanLyBanHangTrucTuyen
             }
 
         }
-        void LoadRoleComboBox()
+        void LoadComboBoxTimKiem()
         {
-            cboRole.DataSource = bus.GetAllRoles();
+            DataTable dt = bus.GetAllRoles();
+            DataRow dr = dt.NewRow();
+            dr["RoleID_N01"] = -1;
+            dr["RoleName_N01"] = "--- Tất cả ---";
+            dt.Rows.InsertAt(dr, 0);
+
+            cboRole.DataSource = dt;
             cboRole.DisplayMember = "RoleName_N01";
             cboRole.ValueMember = "RoleID_N01";
-            cboRole.SelectedIndex = -1;
+            cboRole.SelectedIndex = 0;
         }
-        
+
         private void FormQuanLyNguoiDung_Load(object sender, EventArgs e)
         {
             LoadGrid();
-            LoadRoleComboBox();
+            LoadComboBoxTimKiem();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -99,6 +105,30 @@ namespace QuanLyBanHangTrucTuyen
         private void button6_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string tuKhoa = txtTuKhoa.Text.Trim();
+
+            int roleId = -1;
+
+            if (cboRole.SelectedValue != null)
+            {
+                int.TryParse(cboRole.SelectedValue.ToString(), out roleId);
+            }
+            DataTable dt = bus.Search(tuKhoa, roleId);
+
+            if (dt.Rows.Count > 0)
+            {
+                dgvNguoiDung.DataSource = dt;
+            }
+            else
+            {
+                dgvNguoiDung.DataSource = null;
+                MessageBox.Show("Không tìm thấy người dùng nào phù hợp!", "Thông báo");
+            }
         }
     }
 }
