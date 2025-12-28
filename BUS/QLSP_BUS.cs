@@ -3,18 +3,45 @@ using DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
+using System.Threading.Tasks; // Bắt buộc phải có thư viện này để dùng Task
 
 namespace BUS
 {
     public class ProductBUS
     {
-        QLSP_DAL dal = new QLSP_DAL();
+        
+        private QLSP_DAL dal = new QLSP_DAL();
 
-        public DataTable GetAllProducts() => dal.GetAllProducts();
-        public DataTable GetAllCategories() => dal.GetCategories();
-        public void AddProduct(QLSP_DTO p) => dal.Insert(p);
-        public void UpdateProduct(QLSP_DTO p) => dal.Update(p);
-        public void DeleteProduct(int id) => dal.Delete(id);
+    
+        public async Task<List<QLSP_DTO>> GetAllProducts()
+        {
+            return await dal.GetProductsAsync();
+        }
+
+        public async Task<bool> AddProduct(QLSP_DTO p, string localImagePath)
+        {
+   
+            if (p.Price < 0) return false; 
+            if (p.StockQuantity < 0) return false;
+
+       
+            return await dal.InsertProductAsync(p, localImagePath);
+        }
+
+        public async Task<bool> UpdateProduct(QLSP_DTO p, string localImagePath)
+        {
+            
+            return false;
+        }
+
+        public async Task<bool> DeleteProduct(int id)
+        {
+           
+            return false;
+        }
+        public DataTable GetAllCategories()
+        {
+            return dal.GetCategories();
+        }
     }
 }

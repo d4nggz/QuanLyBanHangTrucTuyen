@@ -7,8 +7,7 @@ namespace DAL
 {
     public class Connect
     {
-        private string strCon = "Server=210.211.125.205;Database=kbvaamfl_shope;Uid=kbvaamfl_Dang;Pwd=Dinhdang@1;Charset=utf8;";
-
+        private string strCon = "Server=210.211.125.205;Port=3306;Database=kbvaamfl_shope;Uid=kbvaamfl_Dang;Pwd=Dinhdang@1;Charset=utf8;";
         public Connect() { }
 
         public MySqlConnection GetConnection()
