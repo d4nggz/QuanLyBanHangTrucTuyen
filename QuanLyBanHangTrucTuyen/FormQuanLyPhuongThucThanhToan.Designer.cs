@@ -62,7 +62,7 @@
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1382, 862);
             this.panel1.TabIndex = 0;
@@ -72,7 +72,7 @@
             this.panel4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel4.Controls.Add(this.tableLayoutPanel1);
             this.panel4.Location = new System.Drawing.Point(2, 111);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1450, 320);
             this.panel4.TabIndex = 4;
@@ -90,7 +90,7 @@
             this.tableLayoutPanel1.Controls.Add(this.txtMaPT, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(326, 41);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -103,7 +103,7 @@
             // 
             this.txtTenPT.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtTenPT.Location = new System.Drawing.Point(287, 117);
-            this.txtTenPT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTenPT.Margin = new System.Windows.Forms.Padding(2);
             this.txtTenPT.Name = "txtTenPT";
             this.txtTenPT.Size = new System.Drawing.Size(135, 20);
             this.txtTenPT.TabIndex = 6;
@@ -125,7 +125,7 @@
             // 
             this.txtMaPT.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtMaPT.Location = new System.Drawing.Point(287, 32);
-            this.txtMaPT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaPT.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaPT.Name = "txtMaPT";
             this.txtMaPT.Size = new System.Drawing.Size(135, 20);
             this.txtMaPT.TabIndex = 5;
@@ -149,7 +149,7 @@
             this.panel3.Controls.Add(this.tableLayoutPanel2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 378);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1382, 484);
             this.panel3.TabIndex = 2;
@@ -161,7 +161,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.dgvQLPT);
             this.panel5.Location = new System.Drawing.Point(2, 38);
-            this.panel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(1378, 360);
             this.panel5.TabIndex = 2;
@@ -173,12 +173,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvQLPT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQLPT.Location = new System.Drawing.Point(0, 80);
-            this.dgvQLPT.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvQLPT.Margin = new System.Windows.Forms.Padding(2);
             this.dgvQLPT.Name = "dgvQLPT";
             this.dgvQLPT.RowHeadersWidth = 51;
             this.dgvQLPT.RowTemplate.Height = 24;
             this.dgvQLPT.Size = new System.Drawing.Size(1376, 277);
             this.dgvQLPT.TabIndex = 0;
+            this.dgvQLPT.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQLPT_CellContentClick);
             this.dgvQLPT.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvQLPT_CellContentClick);
             // 
             // tableLayoutPanel2
@@ -196,7 +197,7 @@
             this.tableLayoutPanel2.Controls.Add(this.button2, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 403);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
@@ -207,7 +208,7 @@
             // 
             this.button6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button6.Location = new System.Drawing.Point(1188, 22);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(109, 36);
             this.button6.TabIndex = 4;
@@ -219,7 +220,7 @@
             // 
             this.button5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button5.Location = new System.Drawing.Point(911, 22);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(109, 36);
             this.button5.TabIndex = 3;
@@ -230,7 +231,7 @@
             // 
             this.button4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button4.Location = new System.Drawing.Point(635, 22);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(109, 36);
             this.button4.TabIndex = 2;
@@ -242,7 +243,7 @@
             // 
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button3.Location = new System.Drawing.Point(359, 22);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(109, 36);
             this.button3.TabIndex = 1;
@@ -254,7 +255,7 @@
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.Location = new System.Drawing.Point(83, 22);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(109, 36);
             this.button2.TabIndex = 0;
@@ -267,7 +268,7 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1382, 125);
             this.panel2.TabIndex = 1;
@@ -291,7 +292,7 @@
             this.ClientSize = new System.Drawing.Size(1382, 862);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormQuanLyPhuongThucThanhToan";
             this.Text = "FormQuanLyPhuongThucThanhToan";
             this.Load += new System.EventHandler(this.FormQuanLyPhuongThucThanhToan_Load);

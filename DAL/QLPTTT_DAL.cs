@@ -1,4 +1,5 @@
 ﻿using DTO;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,26 +12,40 @@ namespace DAL
     {
             Connect db = new Connect();
 
-            public DataTable GetAll()
-            {
-                return db.LoadData("SELECT * FROM PaymentMethods_N01");
-            }
-            public void Insert(QLPTTT_DTO p)
-            {
-                string sql = $"INSERT INTO PaymentMethods_N01 (MethodName_N01) VALUES (N'{p.MethodName}')";
-                db.Execute(sql);
-            }
-
-            public void Update(QLPTTT_DTO p)
-            {
-                string sql = $"UPDATE PaymentMethods_N01 SET MethodName_N01 = N'{p.MethodName}' WHERE MethodID_N01 = {p.PaymentMethodId}";
-                db.Execute(sql);
-            }
-            public void Delete(int id)
-            {
-                string sql = $"DELETE FROM PaymentMethods_N01 WHERE MethodID_N01 = {id}";
-                db.Execute(sql);
-            }
+        public DataTable GetAllMethods()
+        {
+            return db.LoadData("SELECT methodID, methodName FROM methods ORDER BY methodID DESC");
         }
+        public void InsertMethod(QLPTTT_DTO pttt)
+        {
+            string sql = "INSERT INTO methods(methodName) VALUES(@Name)";
+            MySqlParameter[] para = { new MySqlParameter("@Name", pttt.MethodName) };
+            db.Execute(sql, para);
+        }
+
+        public void UpdateMethod(QLPTTT_DTO pttt)
+        {
+            string sql = "UPDATE methods SET methodName = @Name WHERE methodID = @Id";
+            MySqlParameter[] para = {
+                new MySqlParameter("@Id", pttt.PaymentMethodId),
+                new MySqlParameter("@Name", pttt.MethodName)
+            };
+            db.Execute(sql, para);
+        }
+        public void DeleteMethod(int id)
+        {
+            string sql = "DELETE FROM methods WHERE methodID = @Id";
+            MySqlParameter[] para = { new MySqlParameter("@Id", id) };
+            db.Execute(sql, para);
+        }
+
+        public bool CheckNameExist(string name)
+        {
+            string sql = "SELECT COUNT(*) FROM methods WHERE methodName = @Name";
+            MySqlParameter[] para = { new MySqlParameter("@Name", name) };
+            DataTable dt = db.LoadData(sql, para);
+            return Convert.ToInt32(dt.Rows[0][0]) > 0;
+        }
+    }
     }
 

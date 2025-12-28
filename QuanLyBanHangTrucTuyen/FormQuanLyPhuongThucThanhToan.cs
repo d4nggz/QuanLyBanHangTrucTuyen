@@ -22,13 +22,20 @@ namespace QuanLyBanHangTrucTuyen
 
         private void FormQuanLyPhuongThucThanhToan_Load(object sender, EventArgs e)
         {
+            dgvQLPT.AutoGenerateColumns = true;
             LoadGrid();
         }
         void LoadGrid()
         {
-            dgvQLPT.DataSource = bus.GetAll();
-            dgvQLPT.Columns["MethodID_N01"].HeaderText = "Mã PTTT";
-            dgvQLPT.Columns["MethodName_N01"].HeaderText = "Tên Phương Thức Thanh Toán";
+            List<QLPTTT_DTO> list = bus.GetAll();
+            dgvQLPT.DataSource = list;
+
+            if (dgvQLPT.Columns["PaymentMethodId"] != null)
+                dgvQLPT.Columns["PaymentMethodId"].HeaderText = "Mã Phương Thức";
+
+            if (dgvQLPT.Columns["MethodName"] != null)
+                dgvQLPT.Columns["MethodName"].HeaderText = "Tên Phương Thức Thanh Toán";
+
             dgvQLPT.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
@@ -36,8 +43,10 @@ namespace QuanLyBanHangTrucTuyen
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = dgvQLPT.Rows[e.RowIndex];
-                txtTenPT.Text = row.Cells["MethodName_N01"].Value.ToString();
+                var item = dgvQLPT.Rows[e.RowIndex].DataBoundItem as QLPTTT_DTO;
+                if (item != null){
+                    txtTenPT.Text = item.MethodName;
+                }
             }
         }
         void ResetForm()
@@ -47,25 +56,19 @@ namespace QuanLyBanHangTrucTuyen
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTenPT.Text))
-            {
-                MessageBox.Show("Vui lòng nhập tên phương thức!");
-                return;
-            }
+            QLPTTT_DTO p = new QLPTTT_DTO();
+            p.MethodName = txtTenPT.Text.Trim();
 
-            try
+            string result = bus.Add(p);
+            if (result == "Success")
             {
-                QLPTTT_DTO p = new QLPTTT_DTO();
-                p.MethodName = txtTenPT.Text;
-
-                bus.Add(p);
+                MessageBox.Show("Thêm phương thức thanh toán thành công!", "Thông báo");
                 LoadGrid();
                 ResetForm();
-                MessageBox.Show("Thêm thành công!");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show(result, "Lỗi");
             }
         }
 
@@ -73,24 +76,23 @@ namespace QuanLyBanHangTrucTuyen
         {
             if (dgvQLPT.CurrentRow == null)
             {
-                MessageBox.Show("Vui lòng chọn dòng cần sửa!");
+                MessageBox.Show("Vui lòng chọn phương thức cần sửa!", "Thông báo");
                 return;
             }
+            var currentItem = dgvQLPT.CurrentRow.DataBoundItem as QLPTTT_DTO;
+            QLPTTT_DTO p = new QLPTTT_DTO();
+            p.PaymentMethodId = currentItem.PaymentMethodId;
+            p.MethodName = txtTenPT.Text.Trim();
 
-            try
+            if (bus.Update(p))
             {
-                QLPTTT_DTO p = new QLPTTT_DTO();
-                p.PaymentMethodId = Convert.ToInt32(dgvQLPT.CurrentRow.Cells["MethodID_N01"].Value);
-                p.MethodName = txtTenPT.Text;
-
-                bus.Edit(p);
+                MessageBox.Show("Cập nhật thành công!", "Thông báo");
                 LoadGrid();
                 ResetForm();
-                MessageBox.Show("Cập nhật thành công!");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Cập nhật thất bại. Vui lòng kiểm tra dữ liệu!", "Lỗi");
             }
         }
 
@@ -98,20 +100,21 @@ namespace QuanLyBanHangTrucTuyen
         {
             if (dgvQLPT.CurrentRow == null) return;
 
-            int id = Convert.ToInt32(dgvQLPT.CurrentRow.Cells["MethodID_N01"].Value);
+            var currentItem = dgvQLPT.CurrentRow.DataBoundItem as QLPTTT_DTO;
 
-            if (MessageBox.Show("Bạn có chắc muốn xóa?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show($"Bạn có chắc muốn xóa phương thức '{currentItem.MethodName}'?",
+                "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                try
+                string result = bus.Delete(currentItem.PaymentMethodId);
+                if (result == "Success")
                 {
-                    bus.Remove(id);
+                    MessageBox.Show("Đã xóa thành công!", "Thông báo");
                     LoadGrid();
                     ResetForm();
-                    MessageBox.Show("Đã xóa!");
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Không thể xóa phương thức này vì đang được sử dụng trong đơn hàng!");
+                    MessageBox.Show(result, "Lỗi ràng buộc dữ liệu");
                 }
             }
         }

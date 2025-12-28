@@ -14,42 +14,48 @@ namespace QuanLyBanHangTrucTuyen
 {
     public partial class FormQuanLyNguoiDung: Form
     {
-        UserBUS bus = new UserBUS();
+        QLND_BUS bus = new QLND_BUS();
         public FormQuanLyNguoiDung()
         {
             InitializeComponent();
         }
+        void SetHeader(string propertyName, string headerText)
+        {
+            if (dgvNguoiDung.Columns[propertyName] != null)
+            {
+                dgvNguoiDung.Columns[propertyName].HeaderText = headerText;
+            }
+        }
         void LoadGrid()
         {
-            dgvNguoiDung.DataSource = bus.GetAllUsers();
-            dgvNguoiDung.Columns["UserID_N01"].HeaderText = "Mã Người Dùng";
-            dgvNguoiDung.Columns["Username_N01"].HeaderText = "Tên Đăng Nhập";
-            dgvNguoiDung.Columns["Email_N01"].HeaderText = "Email";
-            dgvNguoiDung.Columns["Phone_N01"].HeaderText = "Số Điện Thoại";
-            dgvNguoiDung.Columns["Address_N01"].HeaderText = "Địa Chỉ";
-            dgvNguoiDung.Columns["RoleName_N01"].HeaderText = "Vai Trò";
-            dgvNguoiDung.Columns["Status_N01"].HeaderText = "Trạng Thái Người Dùng";
-            if (dgvNguoiDung.Columns.Contains("Password_N01"))
-            {
-                dgvNguoiDung.Columns["Password_N01"].Visible = false;
-            }
-            if (dgvNguoiDung.Columns.Contains("RoleID_N01"))
-            {
-                dgvNguoiDung.Columns["RoleID_N01"].Visible = false;
-            }
+            List<QLND_DTO> listUser = bus.GetListUsers();
+            dgvNguoiDung.DataSource = listUser;
+            SetHeader("UserId", "Mã ID");
+            SetHeader("Username", "Tên Đăng Nhập");
+            SetHeader("Email", "Email");
+            SetHeader("Phone", "Số Điện Thoại");
+            SetHeader("Address", "Địa Chỉ");
+            SetHeader("RoleName", "Vai Trò");
+            SetHeader("Status", "Trạng Thái");
+
+            if (dgvNguoiDung.Columns["Password"] != null)
+                dgvNguoiDung.Columns["Password"].Visible = false;
+
+            if (dgvNguoiDung.Columns["RoleId"] != null)
+                dgvNguoiDung.Columns["RoleId"].Visible = false;
 
         }
         void LoadComboBoxTimKiem()
         {
-            DataTable dt = bus.GetAllRoles();
+            DataTable dt = bus.GetRoles();
             DataRow dr = dt.NewRow();
-            dr["RoleID_N01"] = -1;
-            dr["RoleName_N01"] = "--- Tất cả ---";
+            dr["role_id"] = -1;
+            dr["role_name"] = "--- Tất cả ---";
             dt.Rows.InsertAt(dr, 0);
 
             cboRole.DataSource = dt;
-            cboRole.DisplayMember = "RoleName_N01";
-            cboRole.ValueMember = "RoleID_N01";
+            cboRole.DisplayMember = "role_name";
+            cboRole.ValueMember = "role_id";
             cboRole.SelectedIndex = 0;
         }
 
@@ -66,38 +72,34 @@ namespace QuanLyBanHangTrucTuyen
         private void button7_Click(object sender, EventArgs e)
         {
             FormCTNguoiDung frm = new FormCTNguoiDung();
-            frm.currentUserId = -1;
-            frm.ShowDialog();
-            LoadGrid();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            if (frm.ShowDialog() == DialogResult.OK) LoadGrid();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (dgvNguoiDung.CurrentRow != null)
             {
-                int id = Convert.ToInt32(dgvNguoiDung.CurrentRow.Cells["UserID_N01"].Value);
-
-                FormCTNguoiDung frm = new FormCTNguoiDung();
-                frm.currentUserId = id;
-                frm.ShowDialog();
-
-                LoadGrid();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn người dùng cần sửa!");
+                QLND_DTO selectedUser = dgvNguoiDung.CurrentRow.DataBoundItem as QLND_DTO;
+                if (selectedUser != null)
+                {
+                    FormCTNguoiDung frm = new FormCTNguoiDung();
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.SetUserDetail(selectedUser);
+                    if (frm.ShowDialog() == DialogResult.OK) LoadGrid();
+                }
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (dgvNguoiDung.SelectedRows.Count > 0)
+            if (dgvNguoiDung.CurrentRow != null)
             {
-                int id = Convert.ToInt32(dgvNguoiDung.CurrentRow.Cells["UserID_N01"].Value);
-                if (MessageBox.Show("Bạn có chắc chắn muốn xóa người dùng này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                QLND_DTO selectedUser = dgvNguoiDung.CurrentRow.DataBoundItem as QLND_DTO;
+                if (MessageBox.Show($"Xóa user '{selectedUser.Username}'?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    bus.DeleteUser(id);
-                    LoadGrid();
+                    if (bus.DeleteUser(selectedUser.UserId)) LoadGrid();
+                    else MessageBox.Show("Xóa thất bại!");
                 }
             }
         }
@@ -111,23 +113,25 @@ namespace QuanLyBanHangTrucTuyen
         private void button1_Click(object sender, EventArgs e)
         {
             string tuKhoa = txtTuKhoa.Text.Trim();
+            int roleId = Convert.ToInt32(cboRole.SelectedValue);
 
-            int roleId = -1;
+            // Tìm kiếm trả về List, Grid tự sinh cột lại
+            List<QLND_DTO> results = bus.SearchUsers(tuKhoa, roleId);
+            dgvNguoiDung.DataSource = results;
 
-            if (cboRole.SelectedValue != null)
+            // Nếu tìm thấy thì phải set lại header vì DataSource bị reset
+            if (results.Count > 0)
             {
-                int.TryParse(cboRole.SelectedValue.ToString(), out roleId);
-            }
-            DataTable dt = bus.Search(tuKhoa, roleId);
-
-            if (dt.Rows.Count > 0)
-            {
-                dgvNguoiDung.DataSource = dt;
+                // Gọi lại logic đổi tên cột (có thể tách hàm SetHeader ra để tái sử dụng)
+                SetHeader("UserId", "Mã ID");
+                SetHeader("Username", "Tên Đăng Nhập");
+                // ... (như hàm LoadGrid)
+                if (dgvNguoiDung.Columns["Password"] != null) dgvNguoiDung.Columns["Password"].Visible = false;
+                if (dgvNguoiDung.Columns["RoleId"] != null) dgvNguoiDung.Columns["RoleId"].Visible = false;
             }
             else
             {
-                dgvNguoiDung.DataSource = null;
-                MessageBox.Show("Không tìm thấy người dùng nào phù hợp!", "Thông báo");
+                MessageBox.Show("Không tìm thấy!");
             }
         }
     }

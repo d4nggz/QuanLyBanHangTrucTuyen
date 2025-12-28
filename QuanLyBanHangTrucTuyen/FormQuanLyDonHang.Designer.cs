@@ -227,6 +227,7 @@
             this.dgvDonHang.RowHeadersWidth = 51;
             this.dgvDonHang.Size = new System.Drawing.Size(1381, 420);
             this.dgvDonHang.TabIndex = 0;
+            this.dgvDonHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dgvDonHang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox3
@@ -337,6 +338,7 @@
             this.dgvChiTiet.RowHeadersWidth = 51;
             this.dgvChiTiet.Size = new System.Drawing.Size(1142, 339);
             this.dgvChiTiet.TabIndex = 0;
+            this.dgvChiTiet.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChiTiet_CellContentClick);
             this.dgvChiTiet.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChiTiet_CellContentClick);
             // 
             // groupBox1

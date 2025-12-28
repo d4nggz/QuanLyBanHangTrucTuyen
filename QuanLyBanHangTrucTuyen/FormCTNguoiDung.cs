@@ -14,11 +14,12 @@ namespace QuanLyBanHangTrucTuyen
 {
     public partial class FormCTNguoiDung: Form
     {
-        public int currentUserId = -1;
-        UserBUS bus = new UserBUS();
+        private int _userId = 0;
+        QLND_BUS bus = new QLND_BUS();
         public FormCTNguoiDung()
         {
             InitializeComponent();
+            txtMatKhau.UseSystemPasswordChar = true;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -39,68 +40,83 @@ namespace QuanLyBanHangTrucTuyen
         private void FormCTNguoiDung_Load(object sender, EventArgs e)
         {
 
-            LoadComboBoxRole();
-            if (currentUserId != -1)
-            {
-                this.Text = "Cập Nhật Người Dùng";
-                LoadDataToEdit();
-            }
-            else
-            {
-                this.Text = "Thêm Mới Người Dùng";
-            }
+            LoadRoleComboBox();
+           
         }
-        void LoadComboBoxRole()
+        void LoadRoleComboBox()
         {
-            cboVaiTro.DataSource = bus.GetAllRoles();
-            cboVaiTro.DisplayMember = "RoleName_N01";
-            cboVaiTro.ValueMember = "RoleID_N01";
+            cboVaiTro.DataSource = bus.GetRoles();
+            cboVaiTro.DisplayMember = "role_name";
+            cboVaiTro.ValueMember = "role_id";
         }
 
-        void LoadDataToEdit()
+        public void SetUserDetail(QLND_DTO user)
         {
-            DataTable dt = bus.GetUserByID(currentUserId);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow r = dt.Rows[0];
-                txtTenDangNhap.Text = r["Username_N01"].ToString();
-                txtMatKhau.Text = r["Password_N01"].ToString();
-                txtEmail.Text = r["Email_N01"].ToString();
-                txtSDT.Text = r["Phone_N01"].ToString();
-                txtDiaChi.Text = r["Address_N01"].ToString();
-                cboVaiTro.SelectedValue = r["RoleID_N01"];
-            }
+            _userId = user.UserId;
+
+            txtTenDangNhap.Text = user.Username;
+            txtTenDangNhap.Enabled = false;
+
+            txtEmail.Text = user.Email;
+            txtSDT.Text = user.Phone;
+            txtDiaChi.Text = user.Address;
+            cboVaiTro.SelectedValue = user.RoleId;
+
+            txtMatKhau.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            if (string.IsNullOrWhiteSpace(txtTenDangNhap.Text))
             {
-                QLND_DTO u = new QLND_DTO();
-                u.Username = txtTenDangNhap.Text;
-                u.Password = txtMatKhau.Text;
-                u.Email = txtEmail.Text;
-                u.Phone = txtSDT.Text;
-                u.Address = txtDiaChi.Text;
-                u.RoleId = Convert.ToInt32(cboVaiTro.SelectedValue);
+                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                return;
+            }
 
-                if (currentUserId == -1)
+            QLND_DTO u = new QLND_DTO();
+            u.UserId = _userId;
+            u.Username = txtTenDangNhap.Text.Trim();
+            u.Email = txtEmail.Text.Trim();
+            u.Phone = txtSDT.Text.Trim();
+            u.Address = txtDiaChi.Text.Trim();
+            u.RoleId = Convert.ToInt32(cboVaiTro.SelectedValue);
+            u.Status = "Active";
+
+            if (_userId == 0)
+            {
+                u.Password = txtMatKhau.Text.Trim();
+
+                string ketQua = bus.AddUser(u);
+
+                if (ketQua == "Success")
                 {
-                    bus.AddUser(u);
-                    MessageBox.Show("Thêm mới thành công!");
+                    MessageBox.Show("Thêm người dùng thành công!");
+                    this.DialogResult = DialogResult.OK; 
+                    this.Close();
                 }
                 else
                 {
-                    u.UserId = currentUserId;
-                    bus.UpdateUser(u);
-                    MessageBox.Show("Cập nhật thành công!");
+                    MessageBox.Show("Lỗi: " + ketQua);
                 }
-
-                this.Close();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                if (bus.UpdateUser(u))
+                {
+
+                    if (!string.IsNullOrEmpty(txtMatKhau.Text))
+                    {
+                        bus.ResetPassword(u.UserId, txtMatKhau.Text);
+                    }
+
+                    MessageBox.Show("Cập nhật thông tin thành công!");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Cập nhật thất bại!");
+                }
             }
         }
         private void btnHuy_Click(object sender, EventArgs e)

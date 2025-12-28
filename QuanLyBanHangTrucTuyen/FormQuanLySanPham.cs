@@ -78,7 +78,7 @@ namespace QuanLyBanHangTrucTuyen
                 p.StockQuantity = (int)nudTonKho.Value;
                 p.Description = txtMoTa.Text;
                 p.CategoryId = (int)cboDanhMuc.SelectedValue;
-                p.ImageUrl = SaveImage(); // Lưu ảnh và lấy tên file
+                p.ImageUrl = SaveImage();
 
                 bus.AddProduct(p);
                 LoadGridView();

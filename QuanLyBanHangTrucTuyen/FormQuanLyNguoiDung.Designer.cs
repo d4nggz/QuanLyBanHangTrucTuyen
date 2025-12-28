@@ -222,6 +222,7 @@
             this.dgvNguoiDung.RowHeadersWidth = 51;
             this.dgvNguoiDung.Size = new System.Drawing.Size(1384, 662);
             this.dgvNguoiDung.TabIndex = 2;
+            this.dgvNguoiDung.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dgvNguoiDung.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // FormQuanLyNguoiDung

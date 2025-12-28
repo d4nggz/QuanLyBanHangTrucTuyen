@@ -1,36 +1,96 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System;
+using System.Data;
+using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 namespace DAL
 {
-    public class Connect 
+    public class Connect
     {
-        
-        private string strCon = @"Data Source=dang;Initial Catalog=QuanLyBanHang_N01;Integrated Security=True;Encrypt=False";
+        private string strCon = "Server=210.211.125.205;Database=kbvaamfl_shope;Uid=kbvaamfl_Dang;Pwd=Dinhdang@1;Charset=utf8;";
 
-        public SqlConnection getConnection()
+        public Connect() { }
+
+        public MySqlConnection GetConnection()
         {
-            return new SqlConnection(strCon);
+            return new MySqlConnection(strCon);
         }
 
-        // Hàm lấy dữ liệu (Read)
-        public DataTable LoadData(string sql)
+        public DataTable LoadData(string sql, MySqlParameter[] parameters = null)
         {
-            using (SqlConnection conn = getConnection())
+            DataTable dt = new DataTable();
+            using (MySqlConnection conn = GetConnection())
             {
-                SqlDataAdapter ad = new SqlDataAdapter(sql, conn);
-                DataTable dt = new DataTable();
-                ad.Fill(dt);
-                return dt;
-            } // Kết nối tự động đóng khi thoát khỏi using
+                try
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        if (parameters != null)
+                        {
+                            cmd.Parameters.AddRange(parameters);
+                        }
+
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Lỗi kết nối CSDL: " + ex.Message);
+                }
+            }
+            return dt;
         }
-        public void Execute(string sql)
+
+        public int Execute(string sql, MySqlParameter[] parameters = null)
         {
-            using (SqlConnection conn = getConnection())
+            using (MySqlConnection conn = GetConnection())
             {
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                try
+                {
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        if (parameters != null)
+                        {
+                            cmd.Parameters.AddRange(parameters);
+                        }
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Lỗi Execute: " + ex.Message);
+                }
+            }
+        }
+
+        public void ExecuteTransaction(List<MySqlCommand> commands)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                using (MySqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var cmd in commands)
+                        {
+                            cmd.Connection = conn;
+                            cmd.Transaction = trans;
+                            cmd.ExecuteNonQuery();
+                        }
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw new Exception("Lỗi Transaction: " + ex.Message);
+                    }
+                }
             }
         }
     }

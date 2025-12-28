@@ -11,10 +11,76 @@ namespace BUS
     {
         QLDM_DAL dal = new QLDM_DAL();
 
-        public DataTable GetAllCategories() => dal.GetAllCategories();
-        public void AddCategory(QLDM_DTO cat) => dal.InsertCategory(cat);
-        public void UpdateCategory(QLDM_DTO cat) => dal.UpdateCategory(cat);
-        public void DeleteCategory(int id) => dal.DeleteCategory(id);
-        public DataTable SearchCategory(string keyword) => dal.SearchCategory(keyword);
+        public List<QLDM_DTO> GetAllCategories()
+        {
+            DataTable dt = dal.GetCategories();
+            List<QLDM_DTO> list = new List<QLDM_DTO>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new QLDM_DTO
+                {
+                    CategoryId = Convert.ToInt32(row["category_id"]),
+                    Name = row["name"].ToString(),
+                    Description = row["description"].ToString()
+                });
+            }
+            return list;
+        }
+        public string AddCategory(QLDM_DTO cat)
+        {
+            if (string.IsNullOrWhiteSpace(cat.Name)) return "Tên danh mục không được để trống!";
+            if (dal.CheckNameExists(cat.Name)) return "Tên danh mục đã tồn tại!";
+
+            try
+            {
+                dal.InsertCategory(cat);
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                return "Lỗi: " + ex.Message;
+            }
+        }
+        public bool UpdateCategory(QLDM_DTO cat)
+        {
+            if (string.IsNullOrWhiteSpace(cat.Name)) return false;
+            try
+            {
+                dal.UpdateCategory(cat);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public string DeleteCategory(int id)
+        {
+            try
+            {
+                dal.DeleteCategory(id);
+                return "Success";
+            }
+            catch
+            {
+                return "Không thể xóa! Danh mục đang chứa sản phẩm.";
+            }
+        }
+        public List<QLDM_DTO> SearchCategory(string keyword)
+        {
+            DataTable dt = dal.SearchCategory(keyword);
+            List<QLDM_DTO> list = new List<QLDM_DTO>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new QLDM_DTO
+                {
+                    CategoryId = Convert.ToInt32(row["category_id"]),
+                    Name = row["name"].ToString(),
+                    Description = row["description"].ToString()
+                });
+            }
+            return list;
+        }
     }
 }
