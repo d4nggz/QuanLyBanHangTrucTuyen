@@ -36,8 +36,8 @@ namespace BUS
 
         public async Task<bool> DeleteProduct(int id)
         {
-           
-            return false;
+            if (id <= 0) return false;
+            return await dal.DeleteProductAsync(id);
         }
         public DataTable GetAllCategories()
         {

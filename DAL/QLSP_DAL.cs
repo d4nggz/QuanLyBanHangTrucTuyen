@@ -1,14 +1,15 @@
 ﻿using DTO;
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Data.SqlClient;
 using System.IO;
-using System.Net.Http.Headers;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 namespace DAL
 {
     public class QLSP_DAL
@@ -134,6 +135,31 @@ namespace DAL
         {
             // Nhớ dùng đúng tên bảng và tên cột trong SQL của bạn
             return db.LoadData("SELECT category_id, name FROM categories");
+        }
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            string sql = "DELETE FROM products WHERE product_id = @Id";
+
+            using (MySqlConnection conn = db.GetConnection())
+            {
+                try
+                {
+                    await conn.OpenAsync();
+
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+                        return rowsAffected > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
         }
     }
 }
