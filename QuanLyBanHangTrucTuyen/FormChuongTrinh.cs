@@ -129,5 +129,14 @@ namespace QuanLyBanHangTrucTuyen
             frm.Show();
             frm.BringToFront();
         }
+
+        private void báoCáoTồnKhoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormBaoCaoTonKho formBaoCaoTonKho = new FormBaoCaoTonKho();
+            formBaoCaoTonKho.MdiParent = this;
+            formBaoCaoTonKho.WindowState = FormWindowState.Maximized;
+            formBaoCaoTonKho.Show();
+
+        }
     }
 }

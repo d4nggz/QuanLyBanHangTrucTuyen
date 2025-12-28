@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsInventory" targetNamespace="http://tempuri.org/dsInventory.xsd" xmlns:mstns="http://tempuri.org/dsInventory.xsd" xmlns="http://tempuri.org/dsInventory.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsInventory" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="dsInventory" msprop:Generator_DataSetName="dsInventory">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="InventoryTable" msprop:Generator_RowEvHandlerName="InventoryTableRowChangeEventHandler" msprop:Generator_RowDeletedName="InventoryTableRowDeleted" msprop:Generator_RowDeletingName="InventoryTableRowDeleting" msprop:Generator_RowEvArgName="InventoryTableRowChangeEvent" msprop:Generator_TablePropName="InventoryTable" msprop:Generator_RowChangedName="InventoryTableRowChanged" msprop:Generator_RowChangingName="InventoryTableRowChanging" msprop:Generator_TableClassName="InventoryTableDataTable" msprop:Generator_RowClassName="InventoryTableRow" msprop:Generator_TableVarName="tableInventoryTable" msprop:Generator_UserTableName="InventoryTable">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="product_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_UserColumnName="product_id" type="xs:int" minOccurs="0" />
+              <xs:element name="product_name" msprop:Generator_ColumnPropNameInRow="product_name" msprop:Generator_ColumnPropNameInTable="product_nameColumn" msprop:Generator_ColumnVarNameInTable="columnproduct_name" msprop:Generator_UserColumnName="product_name" type="xs:string" minOccurs="0" />
+              <xs:element name="category_name" msprop:Generator_ColumnPropNameInRow="category_name" msprop:Generator_ColumnPropNameInTable="category_nameColumn" msprop:Generator_ColumnVarNameInTable="columncategory_name" msprop:Generator_UserColumnName="category_name" type="xs:string" minOccurs="0" />
+              <xs:element name="stock_quantity" msprop:Generator_ColumnPropNameInRow="stock_quantity" msprop:Generator_ColumnPropNameInTable="stock_quantityColumn" msprop:Generator_ColumnVarNameInTable="columnstock_quantity" msprop:Generator_UserColumnName="stock_quantity" type="xs:int" minOccurs="0" />
+              <xs:element name="price" msprop:Generator_ColumnPropNameInRow="price" msprop:Generator_ColumnPropNameInTable="priceColumn" msprop:Generator_ColumnVarNameInTable="columnprice" msprop:Generator_UserColumnName="price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="total_value" msprop:Generator_ColumnPropNameInRow="total_value" msprop:Generator_ColumnPropNameInTable="total_valueColumn" msprop:Generator_ColumnVarNameInTable="columntotal_value" msprop:Generator_UserColumnName="total_value" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
