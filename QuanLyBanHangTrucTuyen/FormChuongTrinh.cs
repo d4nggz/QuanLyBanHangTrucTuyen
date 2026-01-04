@@ -100,6 +100,11 @@ namespace QuanLyBanHangTrucTuyen
                     FormQuanLyPhuongThucThanhToan formQuanLyPhuongThucThanhToan = new FormQuanLyPhuongThucThanhToan();
                     frm = formQuanLyPhuongThucThanhToan;
                     break;
+                case "quảnLýThanhToánĐơnHàngToolStripMenuItem":
+                    FormQuanLyThanhToanDonHang formQuanLyThanhToanDonHang = new FormQuanLyThanhToanDonHang();
+                    frm = formQuanLyThanhToanDonHang;
+                    
+                    break;
 
             }
             frm.MdiParent = this;

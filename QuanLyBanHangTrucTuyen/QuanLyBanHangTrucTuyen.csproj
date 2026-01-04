@@ -129,11 +129,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dsBaoCao.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsBaoCao.xsd</DependentUpon>
-    </Compile>
     <Compile Include="dsInventory.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -199,6 +194,12 @@
     <Compile Include="FormQuanLySanPham.Designer.cs">
       <DependentUpon>FormQuanLySanPham.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormQuanLyThanhToanDonHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQuanLyThanhToanDonHang.Designer.cs">
+      <DependentUpon>FormQuanLyThanhToanDonHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormThongKeDoanhThu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,12 +218,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptTonKho.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="rptUserList.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>rptUserList.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
@@ -256,6 +251,9 @@
     <EmbeddedResource Include="FormQuanLySanPham.resx">
       <DependentUpon>FormQuanLySanPham.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormQuanLyThanhToanDonHang.resx">
+      <DependentUpon>FormQuanLyThanhToanDonHang.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormThongKeDoanhThu.resx">
       <DependentUpon>FormThongKeDoanhThu.cs</DependentUpon>
     </EmbeddedResource>
@@ -276,21 +274,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptTonKho.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="rptUserList.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptUserList.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="dsBaoCao.xsc">
-      <DependentUpon>dsBaoCao.xsd</DependentUpon>
-    </None>
-    <None Include="dsBaoCao.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsBaoCao.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="dsBaoCao.xss">
-      <DependentUpon>dsBaoCao.xsd</DependentUpon>
-    </None>
     <None Include="dsInventory.xsc">
       <DependentUpon>dsInventory.xsd</DependentUpon>
     </None>
